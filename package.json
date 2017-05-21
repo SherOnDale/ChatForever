@@ -15,6 +15,7 @@
   },
   "dependencies": {
     "express": "*",
-    "socket.io": "*"
+    "socket.io": "*",
+    "lodash": "*"
   }
 }
