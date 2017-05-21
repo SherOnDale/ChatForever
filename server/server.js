@@ -13,7 +13,7 @@ io.on('connection', (socket) => {
   console.log('A client is connected');
   
   socket.on('createMessage', (message) => {
-    let recievedMessage = _.pick(message, ['name', 'text']);
+    let receivedMessage = _.pick(message, ['name', 'text']);
     receivedMessage.createdAt = new Date().getTime();
     io.emit('newMessage', receivedMessage);
     console.log(receivedMessage);
