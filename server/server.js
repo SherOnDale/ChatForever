@@ -24,11 +24,12 @@ io.on('connection', (socket) => {
     let receivedMessage = _.pick(message, ['from', 'text']);
     receivedMessage = generateMessage(receivedMessage.from, receivedMessage.text);
     io.emit('newMessage', receivedMessage);
-    callback('Message Sent');
+    callback();
   });
 
-  socket.on('createLocationMessage', (position) => {
+  socket.on('createLocationMessage', (position, callback) => {
     socket.emit('newLocationMessage', generateLocationMessage(position));
+    callback();
   });
 
   socket.on('disconnect', () => {
