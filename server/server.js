@@ -14,9 +14,9 @@ io.on('connection', (socket) => {
   
   socket.on('createMessage', (message) => {
     let recievedMessage = _.pick(message, ['name', 'text']);
-    message.createdAt = new Date().getTime();
-    io.emit('newMessage', message);
-    console.log(message);
+    receivedMessage.createdAt = new Date().getTime();
+    io.emit('newMessage', receivedMessage);
+    console.log(receivedMessage);
   });
 
   socket.on('disconnect', () => {
