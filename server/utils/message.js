@@ -3,10 +3,18 @@ let generateMessage = (from, text) => {
   message.from = from;
   message.text = text;
   message.createdAt = new Date().getTime();
-  console.log(JSON.stringify(message, undefined, 2));
   return message;
 };
 
+let generateLocationMessage = (position) => {
+  let message = {};
+  message.from = position.from;
+  message.text = `https://maps.google.com?q=${position.lat},${position.lng}`;
+  message.createdAt = new Date().getTime();
+  return message;
+}
+
 module.exports = {
-  generateMessage
+  generateMessage,
+  generateLocationMessage
 };

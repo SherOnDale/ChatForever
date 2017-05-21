@@ -6,18 +6,25 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
   <title>Chat Forever</title>
+  <link rel="stylesheet" type="text/css" href="/css/main.css">
 </head>
 
-<body>
-  <p>Welcome to Chat Forever</p>
-  <ol id="messages">
-    
+<body class="chat">
+  <div class="chat__sidebar">
+    <h3>People</h3>
+    <div ID="users"></div>
+  </div>
+  <div class="chat__main">
+  <ol id="messages" class="chat__messages">
   </ol>
+  <div class="chat__footer">
   <form id="message-form">
     <input type="text" name="message" placeholder="Message">
     <button>Send</button>
     <button id="send-location">Send Location</button>
   </form>
+  </div></div>
+
 </body>
 
 <script src="/socket.io/socket.io.js"></script>
