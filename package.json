@@ -17,7 +17,8 @@
   "dependencies": {
     "express": "*",
     "socket.io": "*",
-    "lodash": "*"
+    "lodash": "*",
+    "moment": "*"
   },
   "devDependencies": {
     "mocha": "*",

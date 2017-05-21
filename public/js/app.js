@@ -1,24 +1,28 @@
 const socket = io();
 
+
 socket.on('connect', () => {
   console.log('Connected to the server');
 
   socket.on('alertMessage', (message) => {
+    let formattedTime = moment(message.createdAt).format('h:mm a');
     let li = $('<li></li>');
-    li.text(`${message.from}: ${message.text}`);
+    li.text(`${message.from} ${formattedTime}: ${message.text}`);
     $('#messages').append(li);
   });
 
   socket.on('newMessage', (message) => {
+    let formattedTime = moment(message.createdAt).format('h:mm a');
     let li = $('<li></li>');
-    li.text(`${message.from}: ${message.text}`);
+    li.text(`${message.from} ${formattedTime}: ${message.text}`);
     $('#messages').append(li);
   });
 
   socket.on('newLocationMessage', (message) => {
+    let formattedTime = moment(message.createdAt).format('h:mm a');
     let li = $('<li></li>');
     let a = $('<a target="_black">My location</a>');
-    li.text(`${message.from}: `);
+    li.text(`${message.from} ${formattedTime}: `);
     a.attr('href', `${message.text}`);
     li.append(a);
     $('#messages').append(li);
