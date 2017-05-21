@@ -10,10 +10,17 @@
 
 <body>
   <p>Welcome to Chat Forever</p>
-  <div id="message"></div>
+  <ol id="messages">
+    
+  </ol>
+  <form id="message-form">
+    <input type="text" name="message" placeholder="Message">
+    <button>Send</button>
+  </form>
 </body>
 
 <script src="/socket.io/socket.io.js"></script>
+<script src="/js/libs/jquery.min.js"></script>
 <script src="/js/app.js"></script>
 
 </html>

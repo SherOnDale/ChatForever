@@ -13,10 +13,22 @@ socket.on('connect', () => {
 
   socket.on('newMessage', (message) => {
     console.log(message);
-  document.getElementById('message').innerHTML = JSON.stringify(message, undefined, 2);
+    let li = $('<li></li>');
+    li.text(`${message.from}: ${message.text}`);
+    $('#messages').append(li);
   });
 });
 
 socket.on('disconnect', () => {
   console.log('Disconnected from server');
 });
+
+$('#message-form').on('submit', (event) => {
+  event.preventDefault();
+  socket.emit('createMessage', {
+    from: 'User',
+    text: $('[name=message]').val()
+  },(message) => {
+    console.log(message);
+  });
+})

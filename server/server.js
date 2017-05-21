@@ -3,6 +3,9 @@ const http = require('http');
 const express = require('express');
 const socketIO = require('socket.io');
 const _ = require('lodash');
+const {
+  generateMessage
+} = require('./utils/message');
 
 const app = express();
 const port = process.env.PORT || 3000;
@@ -11,24 +14,17 @@ const io = socketIO(server);
 
 io.on('connection', (socket) => {
   console.log('A client is connected');
-  
-  socket.emit('welcomeMessage', {
-    name: 'Admin',
-    text: 'Welcome to ChatForever',
-    createdAt: new Date().getTime()
-  });
 
-  socket.broadcast.emit('newUserMessage', {
-    name: 'Admin',
-    text: 'A new user has joined the chat',
-    createdAt: new Date().getTime()
-  });
+  socket.emit('welcomeMessage', generateMessage('Admin', 'Welcome to Chat Forever'));
 
-  socket.on('createMessage', (message) => {
-    let receivedMessage = _.pick(message, ['name', 'text']);
-    receivedMessage.createdAt = new Date().getTime();
+  socket.broadcast.emit('newUserMessage', generateMessage('Admin', 'A new user has joined the chat'));
+
+  socket.on('createMessage', (message, callback) => {
+    let receivedMessage = _.pick(message, ['from', 'text']);
+    receivedMessage = generateMessage(receivedMessage.from, receivedMessage.text);
     io.emit('newMessage', receivedMessage);
     console.log(receivedMessage);
+    callback('Message Sent');
   });
 
   socket.on('disconnect', () => {
