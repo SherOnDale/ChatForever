@@ -6,7 +6,7 @@
   "scripts": {
     "start": "node server/server.js",
     "test": "echo \"Error: no test specified\" && exit 1",
-    "startloop": "nodemon server/server/js"
+    "startloop": "nodemon server/server.js"
   },
   "author": "",
   "license": "ISC",
@@ -14,6 +14,7 @@
     "node": "7.9.0"
   },
   "dependencies": {
-    "express": "*"
+    "express": "*",
+    "socket.io": "*"
   }
 }
