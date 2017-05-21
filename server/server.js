@@ -2,6 +2,7 @@ const path = require('path');
 const http = require('http');
 const express = require('express');
 const socketIO = require('socket.io');
+const _ = require('lodash');
 
 const app = express();
 const port = process.env.PORT || 3000;
@@ -10,16 +11,12 @@ const io = socketIO(server);
 
 io.on('connection', (socket) => {
   console.log('A client is connected');
-
-  socket.emit('newMessage', {
-    from: 'Binu',
-    text: 'Hello there',
-    createdAt: 'Today'
-  });
   
-  socket.on('createMessage', (data) => {
-    data.createdAt = new Date();
-    console.log(data);
+  socket.on('createMessage', (message) => {
+    let recievedMessage = _.pick(message, ['name', 'text']);
+    message.createdAt = new Date().getTime();
+    io.emit('newMessage', message);
+    console.log(message);
   });
 
   socket.on('disconnect', () => {
