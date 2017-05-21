@@ -27,6 +27,10 @@ io.on('connection', (socket) => {
     callback('Message Sent');
   });
 
+  socket.on('createLocationMessage', (position) => {
+    socket.emit('newMessage', generateMessage('User', `${position.lat}, ${position.lng}`));
+  });
+
   socket.on('disconnect', () => {
     console.log('Client disconnected');
   })

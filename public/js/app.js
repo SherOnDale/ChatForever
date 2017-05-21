@@ -32,3 +32,19 @@ $('#message-form').on('submit', (event) => {
     console.log(message);
   });
 })
+
+let locationButton = $('#send-location');
+locationButton.on('click', (event) => {
+  event.preventDefault();
+  if(!navigator.geolocation) {
+    return alert('Geolocation is not supported by your browser');
+  }
+  navigator.geolocation.getCurrentPosition((position) => {
+    socket.emit('createLocationMessage', {
+      lat: position.coords.latitude,
+      lng: position.coords.longitude
+    });
+  }, () => {
+    alert('Unable to fetch location');
+  })
+});
