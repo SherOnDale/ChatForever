@@ -8,7 +8,7 @@ let scrollToBottom = () => {
   let scrollHeight = messages.prop('scrollHeight');
   let newMessageHeight = newMessage.innerHeight();
   let lastMessageHeight = newMessage.prev().innerHeight();
-  if(clientHeight + scrollTop + newMessageHeight + lastMessageHeight >= scrollHeight) {
+  if (clientHeight + scrollTop + newMessageHeight + lastMessageHeight >= scrollHeight) {
     messages.scrollTop(scrollHeight);
   }
 };
@@ -16,14 +16,11 @@ let scrollToBottom = () => {
 socket.on('connect', () => {
   let params = $.deparam(window.location.search);
   socket.emit('join', params, (err) => {
-    if(err) {
+    if (err) {
       alert(err);
       window.location.href = '/';
-    } else {
-      console.log('no error');
-    }
+    } else {}
   });
-  console.log('Connected to the server');
 
   socket.on('updateUsersList', (users) => {
     let ol = $('<ol></ol');
@@ -81,10 +78,6 @@ socket.on('connect', () => {
     scrollToBottom();
   });
 
-  socket.on('disconnect', () => {
-    console.log('Disconnected');
-  });
-
   $('#message-form').on('submit', (event) => {
     event.preventDefault();
     let messageTextBox = $('[name=message]');
@@ -115,28 +108,30 @@ socket.on('connect', () => {
     })
   });
 
-  let statusText = $('#chat__status-p');
+  let statusText = $('.chat__status-p');
   let messageInput = $('#message-input');
-  let lastTypedTime = new Date(0);
+  let typing = false;
+  let timeout;
   var typingDelay = 1000;
 
-  let refreshTypingStatus = () => {
-    if(!messageInput.is(':focus') || messageInput.val() == '' || new Date().getTime() - lastTypedTime > typingDelay) {
-      socket.emit('typing', {
-        value: false
-      });
+  messageInput.keyup(() => {
+    if (!typing)
+      socket.emit('typing', true);
+    typing = true;
+    clearTimeout(timeout);
+    timeout = setTimeout(clearTypingStatus, 1000);
+  });
+
+  let clearTypingStatus = () => {
+    typing = false;
+    socket.emit('typing', false);
+  };
+
+  socket.on('updateTypingStatus', message => {
+    if(message.status) {
+      statusText.html(`${message.name} is typing...`)
     } else {
-      socket.emit('typing', {
-        value: true
-      }); 
+      statusText.html('');
     }
-  };
-
-  let updateLastTypedTime = () => {
-    lastTypedTime = new Date();
-  };
-
-  setInterval(refreshTypingStatus, 100);
-  textarea.keypress(updateLastTypedTime);
-  textarea.blur(refreshTypingStatus);
+  });
 });

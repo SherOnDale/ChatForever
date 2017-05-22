@@ -61,7 +61,24 @@ io.on('connection', (socket) => {
     }
     callback();
 
-    
+
+  });
+
+  socket.on('typing', (status) => {
+    let user = users.getUser(socket.id);
+    if (user) {
+      if (status) {
+        socket.broadcast.to(user.room).emit('updateTypingStatus', {
+          name: user.name,
+          status: true
+        });
+      } else {
+        socket.broadcast.to(user.room).emit('updateTypingStatus', {
+          name: user.name,
+          status: false
+        });
+      }
+    }
   });
 
   socket.on('disconnect', () => {
