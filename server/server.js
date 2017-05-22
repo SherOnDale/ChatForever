@@ -33,8 +33,8 @@ io.on('connection', (socket) => {
   });
 
   socket.on('disconnect', () => {
-    console.log('Client disconnected');
-  })
+    socket.broadcast.emit('leftMessage', generateMessage('Admin', 'A user has left the chat'));
+  });
 });
 
 app.use(express.static(path.join(__dirname, '../public')));

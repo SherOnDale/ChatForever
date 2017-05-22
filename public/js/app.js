@@ -15,6 +15,17 @@ socket.on('connect', () => {
     $('#messages').append(html);
   });
 
+  socket.on('leftMessage', (message) => {
+    let formattedTime = moment(message.createdAt).format('h:mm a');
+    let template = $('#message-template').html();
+    let html = Mustache.render(template, {
+      text: message.text,
+      from: message.from,
+      createdAt: formattedTime
+    });
+    $('#messages').append(html);
+  })
+
   socket.on('newMessage', (message) => {
     let formattedTime = moment(message.createdAt).format('h:mm a');
     let template = $('#message-template').html();
@@ -38,7 +49,7 @@ socket.on('connect', () => {
   });
 
   socket.on('disconnect', () => {
-    console.log('Disconnected from server');
+    console.log('Disconnected');
   });
 
   $('#message-form').on('submit', (event) => {
