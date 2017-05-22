@@ -114,4 +114,29 @@ socket.on('connect', () => {
       alert('Unable to fetch location');
     })
   });
+
+  let statusText = $('#chat__status-p');
+  let messageInput = $('#message-input');
+  let lastTypedTime = new Date(0);
+  var typingDelay = 1000;
+
+  let refreshTypingStatus = () => {
+    if(!messageInput.is(':focus') || messageInput.val() == '' || new Date().getTime() - lastTypedTime > typingDelay) {
+      socket.emit('typing', {
+        value: false
+      });
+    } else {
+      socket.emit('typing', {
+        value: true
+      }); 
+    }
+  };
+
+  let updateLastTypedTime = () => {
+    lastTypedTime = new Date();
+  };
+
+  setInterval(refreshTypingStatus, 100);
+  textarea.keypress(updateLastTypedTime);
+  textarea.blur(refreshTypingStatus);
 });

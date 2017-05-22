@@ -126,6 +126,16 @@ button:disabled {
   -webkit-overflow-scrolling: touch;
 }
 
+.chat__status {
+  width: 100%;
+}
+
+.chat__status p {
+  padding-right: 20px;
+  padding-bottom: 5px;
+  float: right;
+}
+
 .chat__footer {
   background: #e6eaee;
   display: flex;
