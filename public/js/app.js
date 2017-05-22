@@ -119,7 +119,7 @@ socket.on('connect', () => {
       socket.emit('typing', true);
     typing = true;
     clearTimeout(timeout);
-    timeout = setTimeout(clearTypingStatus, 1000);
+    timeout = setTimeout(clearTypingStatus, 500);
   });
 
   let clearTypingStatus = () => {
