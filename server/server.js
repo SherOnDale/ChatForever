@@ -30,7 +30,7 @@ io.on('connection', (socket) => {
     let details = _.pick(params, ['name', 'room']);
     if (isValidParam(details)) {
       details.name = details.name.trim();
-      details.room = details.room.trim();
+      details.room = details.room.trim().toLowerCase();
       socket.join(details.room);
       users.removeUser(socket.id);
       users.addUser(socket.id, details.name, details.room);
@@ -60,6 +60,8 @@ io.on('connection', (socket) => {
       io.to(user.room).emit('newLocationMessage', generateLocationMessage(receivedMessage));
     }
     callback();
+
+    
   });
 
   socket.on('disconnect', () => {
