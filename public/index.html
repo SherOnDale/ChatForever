@@ -15,21 +15,49 @@
     <div ID="users"></div>
   </div>
   <div class="chat__main">
-  <ol id="messages" class="chat__messages">
-  </ol>
-  <div class="chat__footer">
-  <form id="message-form">
-    <input type="text" name="message" placeholder="Message" autocomplete="off" autofocus>
-    <button>Send</button>
-    <button id="send-location">Send location</button>
-  </form>
-  </div></div>
+    <ol id="messages" class="chat__messages">
+    </ol>
+    <div class="chat__footer">
+      <form id="message-form">
+        <input type="text" name="message" placeholder="Message" autocomplete="off" autofocus>
+        <button>Send</button>
+        <button id="send-location">Send location</button>
+      </form>
+    </div>
+  </div>
 
 </body>
+<ol>
+  <template id="message-template">
+    <li class="message">
+      <div class="message__title">
+        <h4>{{from}}</h4>
+        <span>{{createdAt}}</span>
+      </div>
+      <div class="message__body">
+        <p>{{text}}</p>
+      </div>
+    </li>
+  </template>
+</ol>
+<ol>
+  <template id="location-message-template">
+    <li class="message">
+      <div class="message__title">
+        <h4>{{from}}</h4>
+        <span>{{createdAt}}</span>
+      </div>
+      <div class="message__body">
+        <a href="{{text}}" target="_blank">My location</a>
+      </div>
+    </li>
+  </template>
+</ol>
 
 <script src="/socket.io/socket.io.js"></script>
 <script src="/js/libs/jquery.min.js"></script>
 <script src="/js/libs/moment.js"></script>
+<script src="/js/libs/mustache.js"></script>
 <script src="/js/app.js"></script>
 
 </html>
