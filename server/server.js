@@ -10,7 +10,8 @@ const {
   generateLocationMessage
 } = require('./utils/message');
 const {
-  isValidParam
+  isValidParam,
+  isValidMessage
 } = require('./utils/validate');
 const {
   Users
@@ -43,14 +44,21 @@ io.on('connection', (socket) => {
   });
 
   socket.on('createMessage', (message, callback) => {
-    let receivedMessage = _.pick(message, ['from', 'text']);
-    receivedMessage = generateMessage(receivedMessage.from, receivedMessage.text);
-    io.emit('newMessage', receivedMessage);
+    let receivedMessage = _.pick(message, ['text']);
+    let user = users.getUser(socket.id);
+    if (user && isValidMessage(receivedMessage.text)) {
+      io.to(user.room).emit('newMessage', generateMessage(user.name, receivedMessage.text));
+    }
     callback();
   });
 
   socket.on('createLocationMessage', (position, callback) => {
-    socket.emit('newLocationMessage', generateLocationMessage(position));
+    let receivedMessage = _.pick(position, ['lat', 'lng']);
+    let user = users.getUser(socket.id);
+    if (user) {
+      receivedMessage.from = user.name;
+      io.to(user.room).emit('newLocationMessage', generateLocationMessage(receivedMessage));
+    }
     callback();
   });
 

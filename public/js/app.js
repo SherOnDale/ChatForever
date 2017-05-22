@@ -89,7 +89,6 @@ socket.on('connect', () => {
     event.preventDefault();
     let messageTextBox = $('[name=message]');
     socket.emit('createMessage', {
-      from: 'User',
       text: messageTextBox.val()
     }, () => {
       messageTextBox.val('');
@@ -105,7 +104,6 @@ socket.on('connect', () => {
     locationButton.attr('disabled', 'disabled').text('Sending location...');
     navigator.geolocation.getCurrentPosition((position) => {
       socket.emit('createLocationMessage', {
-        from: 'User',
         lat: position.coords.latitude,
         lng: position.coords.longitude
       }, () => {
