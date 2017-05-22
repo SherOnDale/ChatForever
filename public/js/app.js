@@ -25,6 +25,14 @@ socket.on('connect', () => {
   });
   console.log('Connected to the server');
 
+  socket.on('updateUsersList', (users) => {
+    let ol = $('<ol></ol');
+    users.forEach((user) => {
+      ol.append($('<li></li>').text(user));
+      $('#users').html(ol);
+    });
+  });
+
   socket.on('alertMessage', (message) => {
     let formattedTime = moment(message.createdAt).format('h:mm a');
     let template = $('#message-template').html();

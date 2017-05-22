@@ -1,7 +1,8 @@
 const path = require('path');
-const http = require('http');
 const express = require('express');
-const socketIO = require('socket.io');
+const app = express();
+const server = require('http').createServer(app);
+const io = require('socket.io')(server);
 const _ = require('lodash');
 const fs = require('fs');
 const {
@@ -11,11 +12,11 @@ const {
 const {
   isValidParam
 } = require('./utils/validate');
-
-const app = express();
+const {
+  Users
+} = require('./classes/users');
 const port = process.env.PORT || 3000;
-const server = http.createServer(app);
-const io = socketIO(server);
+const users = new Users();
 
 app.get('/', function (req, res) {
   res.sendFile(path.join(__dirname, 'index.html'));
@@ -30,6 +31,9 @@ io.on('connection', (socket) => {
       details.name = details.name.trim();
       details.room = details.room.trim();
       socket.join(details.room);
+      users.removeUser(socket.id);
+      users.addUser(socket.id, details.name, details.room);
+      io.to(details.room).emit('updateUsersList', users.getUserList(details.room));
       socket.emit('alertMessage', generateMessage('Admin', 'Welcome to Chat Forever'));
       socket.broadcast.to(details.room).emit('alertMessage', generateMessage('Admin', `${details.name} has joined the chat`));
       callback();
@@ -51,7 +55,11 @@ io.on('connection', (socket) => {
   });
 
   socket.on('disconnect', () => {
-    socket.broadcast.emit('leftMessage', generateMessage('Admin', 'A user has left the chat'));
+    let user = users.removeUser(socket.id);
+    if (user) {
+      socket.broadcast.to(user.room).emit('updateUsersList', users.getUserList(user.room));
+      socket.broadcast.to(user.room).emit('leftMessage', generateMessage('Admin', `${user.name} has left the chat`));
+    }
   });
 });
 

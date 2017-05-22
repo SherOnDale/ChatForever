@@ -7,7 +7,7 @@ class Users {
     let user = {
       id, 
       name,
-      romm
+      room
     };
     this.users.push(user);
     return user;
@@ -31,3 +31,7 @@ class Users {
     return names;
   }
 }
+
+module.exports = {
+  Users
+};
