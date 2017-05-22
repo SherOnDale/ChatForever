@@ -27,32 +27,28 @@
   </div>
 
 </body>
-<ol>
-  <template id="message-template">
-    <li class="message">
-      <div class="message__title">
-        <h4>{{from}}</h4>
-        <span>{{createdAt}}</span>
-      </div>
-      <div class="message__body">
-        <p>{{text}}</p>
-      </div>
-    </li>
-  </template>
-</ol>
-<ol>
-  <template id="location-message-template">
-    <li class="message">
-      <div class="message__title">
-        <h4>{{from}}</h4>
-        <span>{{createdAt}}</span>
-      </div>
-      <div class="message__body">
-        <a href="{{text}}" target="_blank">My location</a>
-      </div>
-    </li>
-  </template>
-</ol>
+<template id="message-template">
+  <li class="message">
+    <div class="message__title">
+      <h4>{{from}}</h4>
+      <span>{{createdAt}}</span>
+    </div>
+    <div class="message__body">
+      <p>{{text}}</p>
+    </div>
+  </li>
+</template>
+<template id="location-message-template">
+  <li class="message">
+    <div class="message__title">
+      <h4>{{from}}</h4>
+      <span>{{createdAt}}</span>
+    </div>
+    <div class="message__body">
+      <a href="{{text}}" target="_blank">My location</a>
+    </div>
+  </li>
+</template>
 
 <script src="/socket.io/socket.io.js"></script>
 <script src="/js/libs/jquery.min.js"></script>
