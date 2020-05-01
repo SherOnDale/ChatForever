@@ -7,7 +7,9 @@
     "start": "node server/server.js",
     "test": "mocha server/**/*.test.js",
     "startloop": "nodemon server/server.js",
-    "testloop": "nodemon --exec \"npm test\""
+    "testloop": "nodemon --exec \"npm test\"",
+    "snyk-protect": "snyk protect",
+    "prepublish": "npm run snyk-protect"
   },
   "author": "",
   "license": "ISC",
@@ -18,11 +20,13 @@
     "express": "*",
     "socket.io": "*",
     "lodash": "*",
-    "moment": "*"
+    "moment": "*",
+    "snyk": "^1.316.1"
   },
   "devDependencies": {
     "mocha": "*",
     "expect": "*",
     "nodemon": "*"
-  }
+  },
+  "snyk": true
 }
